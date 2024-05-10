@@ -50,9 +50,5 @@ async function getData(): Promise<Activity[]> {
 export default async function ActivitiesTable() {
   const data = await getData();
 
-  return (
-    <div>
-      <DataTable columns={columns} data={data} />
-    </div>
-  );
+  return <DataTable columns={columns} data={data} />;
 }

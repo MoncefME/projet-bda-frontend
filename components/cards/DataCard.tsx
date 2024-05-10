@@ -63,7 +63,7 @@ const DataCard = ({
   }
 
   return (
-    <Card>
+    <Card className="transform cursor-pointer  transition-all duration-300 ease-in-out hover:bg-slate-50 hover:ring-2 hover:ring-strava">
       <CardHeader>
         <CardTitle className="flex w-full items-center justify-between">
           <p>{dataType}</p>
