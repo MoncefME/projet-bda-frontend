@@ -10,7 +10,7 @@ const Home = () => {
     <div className="flex h-screen w-full flex-col items-center justify-center gap-4 bg-gradient-to-bl from-slate-100 via-slate-300 to-slate-400">
       <div className="flex items-center gap-4">
         <Image
-          src="/icons/billed-cap_1f9e2.png"
+          src="/icons/crossed-swords_2694-fe0f.png"
           width={100}
           height={100}
           alt="icon"

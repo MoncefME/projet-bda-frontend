@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export type Activity = {
   id: string;
+  activityId: number;
+  title: string;
   distance: number;
   duration: string;
   date: string;
@@ -12,6 +14,10 @@ export type Activity = {
 };
 
 export const columns: ColumnDef<Activity>[] = [
+  {
+    accessorKey: "title",
+    header: "Title",
+  },
   {
     accessorKey: "distance",
     header: "Distance",

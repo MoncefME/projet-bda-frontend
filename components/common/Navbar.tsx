@@ -1,19 +1,21 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Lightbulb } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between border-b-4 border-blue-600 bg-lime-300 px-4 py-2">
+    <nav className="flex items-center justify-between border-b-4 border-blue-600 bg-blue-300 px-4 py-2">
       <div className="flex items-center space-x-4">
         <h1 className="flex flex-row-reverse items-center gap-4 text-3xl font-bold text-black ">
           Run Insights
-          <Image
-            src="/icons/billed-cap_1f9e2.png"
-            width={45}
-            height={45}
-            alt="icon"
-          />
+          <Link href="/overview">
+            <Image
+              src="/icons/crossed-swords_2694-fe0f.png"
+              width={40}
+              height={40}
+              alt="icon"
+            />
+          </Link>
         </h1>
       </div>
       <div className="flex items-center space-x-2">

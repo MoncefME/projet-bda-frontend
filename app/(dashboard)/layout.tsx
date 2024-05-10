@@ -1,4 +1,4 @@
-import Footer from "@/components/activitiesTable/Footer";
+import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 
 interface DashboardLayoutProps {

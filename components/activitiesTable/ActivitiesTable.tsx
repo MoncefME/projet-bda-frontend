@@ -6,6 +6,8 @@ async function getData(): Promise<Activity[]> {
   return [
     {
       id: "728ed52f",
+      activityId: 22211,
+      title: "Morning Run",
       distance: 10,
       duration: "00:45:23",
       date: "2021-12-12",
@@ -14,6 +16,8 @@ async function getData(): Promise<Activity[]> {
     },
     {
       id: "728ed52f",
+      activityId: 22212,
+      title: "Morning Run",
       distance: 10,
       duration: "00:45:23",
       date: "2021-12-12",
@@ -22,6 +26,8 @@ async function getData(): Promise<Activity[]> {
     },
     {
       id: "728ed52f",
+      activityId: 22213,
+      title: "Morning Run",
       distance: 10,
       duration: "00:45:23",
       date: "2021-12-12",
@@ -30,6 +36,8 @@ async function getData(): Promise<Activity[]> {
     },
     {
       id: "728ed52f",
+      activityId: 22214,
+      title: "Morning Run",
       distance: 10,
       duration: "00:45:23",
       date: "2021-12-12",
@@ -38,6 +46,8 @@ async function getData(): Promise<Activity[]> {
     },
     {
       id: "728ed52f",
+      activityId: 22215,
+      title: "Morning Run",
       distance: 10,
       duration: "00:45:23",
       date: "2021-12-12",
