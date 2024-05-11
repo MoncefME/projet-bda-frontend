@@ -10,17 +10,17 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     if params are {} => Alltime overview
     if params are { "slug": [ "2020" ] }=> year overview
     if parms are { "slug": [ "2020", "2" ] } => month of the year overview
-
   */
+
   return (
     <div className="flex w-full flex-col gap-8 bg-blue-100 p-4">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-semibold">Alltime Overview</h1>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 grid h-40 grid-cols-3 gap-4">
-            <DataCard data={245} dataType="Activities" />
-            <DataCard data={32310} dataType="Distance" />
-            <DataCard data={1520} dataType="Duration" />
+            <DataCard dataType="Activities" />
+            <DataCard dataType="Distance" />
+            <DataCard dataType="Duration" />
           </div>
           <div className="col-span-1 ">
             <YearsMonthsControl />
@@ -53,8 +53,8 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <DataCard data={22} dataType="Streak" />
-          <DataCard data={80} dataType="Break" />
+          <DataCard dataType="Streak" />
+          <DataCard dataType="Break" />
           <DataCard data="Friday" dataType="Most often" />
           <DataCard data="Monday" dataType="Least often" />
         </div>

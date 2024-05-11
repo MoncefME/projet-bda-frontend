@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 
 const YearsMonthsControl = () => {
   const [selectedYear, setSelectedYear] = useState<number | string>("Alltimes");
-  const [selectedMonth, setSelectedMonth] = useState<string>("Jan");
+  const [selectedMonth, setSelectedMonth] = useState<string>("All");
   return (
     <Card>
       <CardContent className="flex flex-col gap-4 py-4">
@@ -30,6 +30,7 @@ const YearsMonthsControl = () => {
           <h1 className="w-20 text-2xl font-semibold">Months</h1>
           <div className="no-scrollbar flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll p-2">
             {[
+              "All",
               "Jan",
               "Feb",
               "Mar",
