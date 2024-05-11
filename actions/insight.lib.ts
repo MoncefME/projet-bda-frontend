@@ -53,13 +53,13 @@ export const getInsightsForRange = async ({
 }: GetInsightsForRangeParams): Promise<InsightsForRange> => {
   console.log("getInsightsForRange");
   // mock 1 second delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  // await new Promise((resolve) => setTimeout(resolve, 500));
   // mock data
   return {
     startDate,
     endDate,
     userId,
-    cummulativeDistance: 100,
+    cummulativeDistance: 400,
     cummulativeTime: 100,
     numberOfActivities: 100,
   };

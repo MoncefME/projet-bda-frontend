@@ -1,9 +1,12 @@
+"use client";
 import ActivitiesTable from "@/components/activitiesTable/ActivitiesTable";
 import ActivitiesGraph from "@/components/cards/ActivitiesGraph";
 import BestEffotsCard from "@/components/cards/BestEffotsCard";
 import DataCard from "@/components/cards/DataCard";
 import YearsMonthsControl from "@/components/cards/YearsMonthsControl";
+import { useInsightsStore } from "@/store/insights.store";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
   /* 
@@ -11,6 +14,22 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     if params are { "slug": [ "2020" ] }=> year overview
     if parms are { "slug": [ "2020", "2" ] } => month of the year overview
   */
+  const {
+    activities,
+    distance,
+    duration,
+    longestBreak,
+    longestStreak,
+    fetchInsights,
+  } = useInsightsStore();
+
+  // useEffect(() => {
+  //   fetchInsights({
+  //     startDate: "2021-01-01",
+  //     endDate: "2021-12-31",
+  //     userId: "1",
+  //   });
+  // }, [params.slug, fetchInsights]);
 
   return (
     <div className="flex w-full flex-col gap-8 bg-blue-100 p-4">
@@ -18,12 +37,12 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         <h1 className="text-3xl font-semibold">Alltime Overview</h1>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 grid h-40 grid-cols-3 gap-4">
-            <DataCard dataType="Activities" />
-            <DataCard dataType="Distance" />
-            <DataCard dataType="Duration" />
+            <DataCard dataType="Activities" data={activities} />
+            <DataCard dataType="Distance" data={distance} />
+            <DataCard dataType="Duration" data={duration} />
           </div>
           <div className="col-span-1 ">
-            <YearsMonthsControl />
+            <YearsMonthsControl slug={params.slug || []} />
           </div>
         </div>
       </div>
@@ -53,8 +72,8 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <DataCard dataType="Streak" />
-          <DataCard dataType="Break" />
+          <DataCard dataType="Streak" data={longestStreak?.days} />
+          <DataCard dataType="Break" data={longestBreak?.days} />
           <DataCard data="Friday" dataType="Most often" />
           <DataCard data="Monday" dataType="Least often" />
         </div>
