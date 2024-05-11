@@ -9,7 +9,7 @@ export type Activity = {
   activityId: number;
   title: string;
   distance: number;
-  duration: string;
+  duration: number;
   date: string;
   pace: string;
   calories: number;
@@ -78,6 +78,7 @@ export const columns: ColumnDef<Activity>[] = [
   },
   {
     accessorKey: "calories",
+
     header: ({ column }) => {
       return (
         <Button

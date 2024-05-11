@@ -1,13 +1,16 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import Image from "next/image";
 
+// Components
 import ActivitiesTable from "@/components/activitiesTable/ActivitiesTable";
 import ActivitiesGraph from "@/components/cards/ActivitiesGraph";
 import BestEffotsCard from "@/components/cards/BestEffotsCard";
 import YearsMonthsControl from "@/components/cards/YearsMonthsControl";
 import DataCard from "@/components/cards/DataCard";
+
+// Store & Services
 import { useInsightsStore } from "@/store/insights.store";
-import Image from "next/image";
 import {
   getLongestStreak,
   getLongestBreak,
@@ -19,6 +22,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     if params are {} => Alltime overview
     if params are { "slug": [ "2020" ] }=> year overview
     if parms are { "slug": [ "2020", "2" ] } => month of the year overview
+
   */
   const {
     longestStreak,
@@ -33,31 +37,33 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setTotalDuration,
   } = useInsightsStore();
 
+  const fetchData = async () => {
+    const streakData = await getLongestStreak();
+    setLongestStreak(streakData as any);
+
+    const breakData = await getLongestBreak();
+    setLongestBreak(breakData as any);
+
+    const insightsData = await getInsightsForRange();
+    setNbActivities(insightsData.numberOfActivities);
+    setTotalDistance(insightsData.cummulativeDistance);
+    setTotalDuration(insightsData.cummulativeTime);
+  };
+
   useEffect(() => {
     console.log("params", params.slug);
-    const fetchData = async () => {
-      const streakData = await getLongestStreak();
-      setLongestStreak(streakData as any);
-
-      const breakData = await getLongestBreak();
-      setLongestBreak(breakData as any);
-
-      const insightsData = await getInsightsForRange();
-      setNbActivities(insightsData.numberOfActivities);
-      setTotalDistance(insightsData.cummulativeDistance);
-      setTotalDuration(insightsData.cummulativeTime);
-    };
     fetchData();
-  }, [params.slug]);
+  }, []);
+  console.log("rendering overview page");
   return (
     <div className="flex w-full flex-col gap-8 bg-blue-100 p-4">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-semibold">Alltime Overview</h1>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 grid h-40 grid-cols-3 gap-4">
-            <DataCard dataType="Activities" data={nbActivities} />
-            <DataCard dataType="Distance" data={totalDistance} />
-            <DataCard dataType="Duration" data={totalDuration} />
+            <DataCard dataType="Activities" data={nbActivities} unit="Runs" />
+            <DataCard dataType="Distance" data={totalDistance} unit="Km" />
+            <DataCard dataType="Duration" data={totalDuration} unit="Hr" />
           </div>
           <div className="col-span-1 ">
             <YearsMonthsControl slug={params.slug || []} />
@@ -90,10 +96,10 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <DataCard dataType="Streak" data={longestStreak?.days} />
-          <DataCard dataType="Break" data={longestBreak?.days} />
-          <DataCard data="Friday" dataType="Most often" />
-          <DataCard data="Monday" dataType="Least often" />
+          <DataCard dataType="Streak" data={longestStreak?.days} unit="Days" />
+          <DataCard dataType="Break" data={longestBreak?.days} unit="Days" />
+          <DataCard data="Friday" dataType="Most often" unit="51 times" />
+          <DataCard data="Monday" dataType="Least often" unit="11 times" />
         </div>
       </div>
 

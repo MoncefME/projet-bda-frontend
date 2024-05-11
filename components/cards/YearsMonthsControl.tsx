@@ -1,8 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardFooter } from "../ui/card";
 import { useRouter } from "next/navigation";
+
+import { Card, CardContent } from "../ui/card";
+import { Button } from "@/components/ui/button";
+import { useActivitiesStore } from "@/store/activities.store";
+import { formatDate } from "@/lib/utils";
 
 const MONTHS_LABELS = [
   "All",
@@ -35,13 +38,41 @@ const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
   );
   const [disabled, setDisabled] = useState(false);
 
+  const { startDay, endDay, setStartDay, setEndDay } = useActivitiesStore();
+
   useEffect(() => {
     if (selectedYear === "Alltimes") {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
+
+    if (selectedYear === "Alltimes") {
+      setDisabled(true);
+      const firstYear = parseInt(YEARS_LABELS[1].toString());
+      const lastYear = parseInt(
+        YEARS_LABELS[YEARS_LABELS.length - 1].toString(),
+      );
+      setStartDay(new Date(firstYear, 0, 1)); // Start date: January 1st of the first year
+      setEndDay(new Date(lastYear, 11, 31)); // End date: December 31st of the last year
+      return;
+    }
+
+    const startDate =
+      selectedMonth === 0
+        ? new Date(selectedYear as number, 0, 1)
+        : new Date(selectedYear as number, selectedMonth - 1, 1);
+
+    const endDate =
+      selectedMonth === 0
+        ? new Date(selectedYear as number, 11, 31)
+        : new Date(selectedYear as number, selectedMonth, 0);
+
+    setStartDay(startDate);
+    setEndDay(endDate);
   }, [selectedMonth, selectedYear]);
+
+  console.log("--------------->", formatDate(startDay), formatDate(endDay));
 
   const router = useRouter();
 
