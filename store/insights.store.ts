@@ -1,10 +1,4 @@
-import {
-  LongestBreak,
-  LongestStreak,
-  getInsightsForRange,
-  getLongestBreak,
-  getLongestStreak,
-} from "@/actions/insight.lib";
+import { LongestBreak, LongestStreak } from "@/services/insights.service";
 import { create } from "zustand";
 
 interface useInsightsStoreProps {
@@ -16,41 +10,27 @@ interface useInsightsStoreProps {
 interface InsightsInterface {
   longestStreak: LongestStreak | null;
   longestBreak: LongestBreak | null;
-  duration: number | null;
-  distance: number | null;
-  activities: number | null;
+  totalDuration: number | null;
+  totalDistance: number | null;
+  nbActivities: number | null;
 
-  fetchInsights: ({
-    startDate,
-    endDate,
-    userId,
-  }: useInsightsStoreProps) => void;
+  setLongestStreak: (longestStreak: LongestStreak) => void;
+  setLongestBreak: (longestBreak: LongestBreak) => void;
+  setTotalDuration: (totalDuration: number) => void;
+  setTotalDistance: (totalDistance: number) => void;
+  setNbActivities: (nbActivities: number) => void;
 }
 
 export const useInsightsStore = create<InsightsInterface>((set) => ({
   longestStreak: null,
   longestBreak: null,
-  duration: null,
-  distance: null,
-  activities: null,
-  fetchInsights: async ({
-    startDate,
-    endDate,
-    userId,
-  }: useInsightsStoreProps) => {
-    const result = await getInsightsForRange({
-      startDate,
-      endDate,
-      userId,
-    });
-    const longestStreak = await getLongestStreak();
-    const longestBreak = await getLongestBreak();
-    set({
-      duration: result.cummulativeTime,
-      distance: result.cummulativeDistance,
-      activities: result.numberOfActivities,
-      longestStreak,
-      longestBreak,
-    });
-  },
+  totalDuration: null,
+  totalDistance: null,
+  nbActivities: null,
+
+  setLongestStreak: (longestStreak) => set({ longestStreak }),
+  setLongestBreak: (longestBreak) => set({ longestBreak }),
+  setTotalDuration: (totalDuration) => set({ totalDuration }),
+  setTotalDistance: (totalDistance) => set({ totalDistance }),
+  setNbActivities: (nbActivities) => set({ nbActivities }),
 }));

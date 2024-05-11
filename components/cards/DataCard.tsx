@@ -46,8 +46,6 @@ const DataCard = ({ data, dataType }: DataCardProps) => {
       unit = "Run";
   }
 
-  // Now you can use the `icon` and `unit` variables as needed
-
   return (
     <Card className="transform cursor-pointer transition-all duration-300 ease-in-out hover:bg-slate-50 hover:ring-2 hover:ring-strava">
       <CardHeader>

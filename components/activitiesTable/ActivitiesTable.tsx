@@ -1,5 +1,9 @@
+"use client";
+import { useEffect, useState } from "react";
 import { Activity, columns } from "./columns";
 import { DataTable } from "./data-table";
+import { getActivities } from "@/services/activity.service";
+import { useActivitiesStore } from "@/store/activities.store";
 
 async function getData(): Promise<Activity[]> {
   // Fetch data from your API here.
@@ -57,8 +61,18 @@ async function getData(): Promise<Activity[]> {
   ];
 }
 
-export default async function ActivitiesTable() {
-  const data = await getData();
+const ActivitiesTable = () => {
+  const { activities, setActivities } = useActivitiesStore();
+  // const [data, setData] = useState<Activity[]>([]);
+  useEffect(() => {
+    const FetchData = async () => {
+      const data = await getActivities();
+      setActivities(data);
+    };
+    FetchData();
+  }, []);
 
-  return <DataTable columns={columns} data={data} />;
-}
+  return <DataTable columns={columns} data={activities} />;
+};
+
+export default ActivitiesTable;

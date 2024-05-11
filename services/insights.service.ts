@@ -39,23 +39,13 @@ export interface InsightsForRange {
   numberOfActivities: number;
 }
 
-interface GetInsightsForRangeParams {
-  startDate: string;
-  endDate: string;
-  userId: string;
-}
-
-export const getInsightsForRange = async ({
-  startDate,
-  endDate,
-  userId,
-}: GetInsightsForRangeParams): Promise<InsightsForRange> => {
+export const getInsightsForRange = async (): Promise<InsightsForRange> => {
   return {
-    startDate,
-    endDate,
-    userId,
-    cummulativeDistance: 400,
-    cummulativeTime: 100,
-    numberOfActivities: 100,
+    startDate: "2021-01-01",
+    endDate: "2021-12-31",
+    userId: "1",
+    cummulativeDistance: Math.ceil(Math.random() * 1000),
+    cummulativeTime: Math.ceil(Math.random() * 1000),
+    numberOfActivities: Math.ceil(Math.random() * 1000),
   };
 };

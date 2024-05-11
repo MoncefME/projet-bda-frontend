@@ -1,12 +1,18 @@
 "use client";
+import { useEffect } from "react";
+
 import ActivitiesTable from "@/components/activitiesTable/ActivitiesTable";
 import ActivitiesGraph from "@/components/cards/ActivitiesGraph";
 import BestEffotsCard from "@/components/cards/BestEffotsCard";
-import DataCard from "@/components/cards/DataCard";
 import YearsMonthsControl from "@/components/cards/YearsMonthsControl";
+import DataCard from "@/components/cards/DataCard";
 import { useInsightsStore } from "@/store/insights.store";
 import Image from "next/image";
-import { useEffect } from "react";
+import {
+  getLongestStreak,
+  getLongestBreak,
+  getInsightsForRange,
+} from "@/services/insights.service";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
   /* 
@@ -15,31 +21,43 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     if parms are { "slug": [ "2020", "2" ] } => month of the year overview
   */
   const {
-    activities,
-    distance,
-    duration,
-    longestBreak,
     longestStreak,
-    fetchInsights,
+    longestBreak,
+    totalDuration,
+    totalDistance,
+    nbActivities,
+    setLongestStreak,
+    setLongestBreak,
+    setNbActivities,
+    setTotalDistance,
+    setTotalDuration,
   } = useInsightsStore();
 
-  // useEffect(() => {
-  //   fetchInsights({
-  //     startDate: "2021-01-01",
-  //     endDate: "2021-12-31",
-  //     userId: "1",
-  //   });
-  // }, [params.slug, fetchInsights]);
+  useEffect(() => {
+    console.log("params", params.slug);
+    const fetchData = async () => {
+      const streakData = await getLongestStreak();
+      setLongestStreak(streakData as any);
 
+      const breakData = await getLongestBreak();
+      setLongestBreak(breakData as any);
+
+      const insightsData = await getInsightsForRange();
+      setNbActivities(insightsData.numberOfActivities);
+      setTotalDistance(insightsData.cummulativeDistance);
+      setTotalDuration(insightsData.cummulativeTime);
+    };
+    fetchData();
+  }, [params.slug]);
   return (
     <div className="flex w-full flex-col gap-8 bg-blue-100 p-4">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-semibold">Alltime Overview</h1>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 grid h-40 grid-cols-3 gap-4">
-            <DataCard dataType="Activities" data={activities} />
-            <DataCard dataType="Distance" data={distance} />
-            <DataCard dataType="Duration" data={duration} />
+            <DataCard dataType="Activities" data={nbActivities} />
+            <DataCard dataType="Distance" data={totalDistance} />
+            <DataCard dataType="Duration" data={totalDuration} />
           </div>
           <div className="col-span-1 ">
             <YearsMonthsControl slug={params.slug || []} />

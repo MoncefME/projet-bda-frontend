@@ -1,3 +1,4 @@
+"use client";
 import ActivityCalendar from "react-activity-calendar";
 
 const ActivitiesGraph = ({
@@ -24,15 +25,7 @@ const ActivitiesGraph = ({
       "Nov",
       "Dec",
     ],
-    weekdays: [
-      "Sun", // Sunday first!
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat",
-    ],
+    weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     legend: {
       less: "Less",
       more: "More",
