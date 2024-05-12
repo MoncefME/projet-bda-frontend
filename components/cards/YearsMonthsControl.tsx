@@ -1,24 +1,111 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { Card, CardContent, CardFooter } from "../ui/card";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-const YearsMonthsControl = () => {
-  const [selectedYear, setSelectedYear] = useState<number | string>("Alltimes");
-  const [selectedMonth, setSelectedMonth] = useState<string>("Jan");
+import { Card, CardContent } from "../ui/card";
+import { Button } from "@/components/ui/button";
+import { useActivitiesStore } from "@/store/activities.store";
+import { formatDate } from "@/lib/utils";
+
+const MONTHS_LABELS = [
+  "All",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const YEARS_LABELS = ["Alltimes", 2019, 2020, 2021, 2022, 2023, 2024];
+
+const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
+  if (slug.length === 0) {
+    slug = ["Alltimes"];
+  }
+  const [year, month] = slug;
+  const [selectedYear, setSelectedYear] = useState<number | string>(
+    year === "Alltimes" ? "Alltimes" : parseInt(year),
+  );
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    month ? parseInt(month) : 0,
+  );
+  const [disabled, setDisabled] = useState(false);
+
+  const { startDay, endDay, setStartDay, setEndDay } = useActivitiesStore();
+
+  useEffect(() => {
+    if (selectedYear === "Alltimes") {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+
+    if (selectedYear === "Alltimes") {
+      setDisabled(true);
+      const firstYear = parseInt(YEARS_LABELS[1].toString());
+      const lastYear = parseInt(
+        YEARS_LABELS[YEARS_LABELS.length - 1].toString(),
+      );
+      setStartDay(new Date(firstYear, 0, 1)); // Start date: January 1st of the first year
+      setEndDay(new Date(lastYear, 11, 31)); // End date: December 31st of the last year
+      return;
+    }
+
+    const startDate =
+      selectedMonth === 0
+        ? new Date(selectedYear as number, 0, 1)
+        : new Date(selectedYear as number, selectedMonth - 1, 1);
+
+    const endDate =
+      selectedMonth === 0
+        ? new Date(selectedYear as number, 11, 31)
+        : new Date(selectedYear as number, selectedMonth, 0);
+
+    setStartDay(startDate);
+    setEndDay(endDate);
+  }, [selectedMonth, selectedYear]);
+
+  console.log("--------------->", formatDate(startDay), formatDate(endDay));
+
+  const router = useRouter();
+
+  const handleYearChange = (year: number | string) => {
+    setSelectedYear(year);
+    if (year === "Alltimes") {
+      router.push("/overview");
+    } else {
+      router.push(`/overview/${year}`);
+    }
+  };
+
+  const handleMonthChange = (month: string | number) => {
+    const monthIndex = MONTHS_LABELS.indexOf(month as string);
+    setSelectedMonth(monthIndex);
+    if (selectedYear !== "Alltimes") {
+      router.push(`/overview/${selectedYear}/${monthIndex}`);
+    }
+  };
+
   return (
     <Card>
       <CardContent className="flex flex-col gap-4 py-4">
         <div className="flex  items-center gap-8 ">
           <div className="text-2xl font-semibold ">Years</div>
           <div className="no-scrollbar flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll p-2">
-            {["Alltimes", 2019, 2020, 2021, 2022, 2023, 2024].map((year) => {
+            {YEARS_LABELS.map((year) => {
               return (
                 <Button
                   key={year}
                   variant={selectedYear === year ? "destructive" : "secondary"}
                   className="snap-start text-xl"
-                  onClick={() => setSelectedYear(year)}
+                  onClick={() => handleYearChange(year)}
                 >
                   {year}
                 </Button>
@@ -29,28 +116,19 @@ const YearsMonthsControl = () => {
         <div className="flex items-center gap-4 ">
           <h1 className="w-20 text-2xl font-semibold">Months</h1>
           <div className="no-scrollbar flex w-full snap-x snap-mandatory gap-2 overflow-x-scroll p-2">
-            {[
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ].map((month) => {
+            {MONTHS_LABELS.map((month) => {
               return (
                 <Button
+                  disabled={disabled}
                   key={month}
                   variant={
-                    selectedMonth === month ? "destructive" : "secondary"
+                    selectedMonth === MONTHS_LABELS.indexOf(month) &&
+                    selectedYear !== "Alltimes"
+                      ? "destructive"
+                      : "secondary"
                   }
                   className="snap-start text-xl"
-                  onClick={() => setSelectedMonth(month)}
+                  onClick={() => handleMonthChange(month)}
                 >
                   {month}
                 </Button>
