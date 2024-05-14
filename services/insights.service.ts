@@ -49,3 +49,15 @@ export const getInsightsForRange = async (): Promise<InsightsForRange> => {
     numberOfActivities: Math.ceil(Math.random() * 1000),
   };
 };
+export interface MonthlyDistance {
+  month: number;
+  distance: number;
+}
+
+export const getMonthlyDistances = async (year: number): Promise<MonthlyDistance[] | null> => {
+  const response = await fetch(`http://localhost:8000/insights/monthly-distances?year=${year}`);
+  if (response.ok) {
+    return response.json();
+  }
+  return null;
+};
