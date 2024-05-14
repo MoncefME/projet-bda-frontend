@@ -30,11 +30,19 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     totalDuration,
     totalDistance,
     nbActivities,
+    mostDay,
+    leastDay,
+    mostDayCount,
+    leastDayCount,
     setLongestStreak,
     setLongestBreak,
     setNbActivities,
     setTotalDistance,
     setTotalDuration,
+    setMostDay,
+    setLeastDay,
+    setMostDayCount,
+    setLeastDayCount,
   } = useInsightsStore();
 
   const fetchData = async () => {
@@ -44,10 +52,17 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     const breakData = await getLongestBreak();
     setLongestBreak(breakData as any);
 
+
+
     const insightsData = await getInsightsForRange();
     setNbActivities(insightsData.numberOfActivities);
     setTotalDistance(insightsData.cummulativeDistance);
     setTotalDuration(insightsData.cummulativeTime);
+    setMostDay(insightsData.mostDay);
+    setLeastDay(insightsData.leastDay);
+    setMostDayCount(insightsData.mostDayCount);
+    setLeastDayCount(insightsData.leastDayCount);
+
   };
 
   useEffect(() => {
@@ -98,8 +113,8 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         <div className="grid grid-cols-2 gap-2">
           <DataCard dataType="Streak" data={longestStreak?.days} unit="Days" />
           <DataCard dataType="Break" data={longestBreak?.days} unit="Days" />
-          <DataCard data="Friday" dataType="Most often" unit="51 times" />
-          <DataCard data="Monday" dataType="Least often" unit="11 times" />
+          <DataCard data={mostDay} dataType="Most often" unit= {mostDayCount.toString() + "times"} />
+          <DataCard data={leastDay} dataType="Least often" unit={mostDayCount.toString() + "times"} />
         </div>
       </div>
 
