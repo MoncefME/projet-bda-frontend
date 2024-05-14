@@ -60,26 +60,33 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setLongestBreak(breakData as any);
     const year = params.slug?.[0];
     const month = params.slug?.[1];
-    const activitiesNb = await getTotalActivities(Number(month) || 0,Number(month) || 0, Number(year)||0);
+    let startmonth = null;
+    let endmonth = null;
+
+    if(year){
+       startmonth = 1;
+       endmonth = 12;
+    }
+    const activitiesNb = await getTotalActivities(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
     setNbActivities(activitiesNb)
 
-    const distanceNb = await getTotalDistance(Number(month) || 0, Number(month) || 0, Number(year) || 0);
+    const distanceNb = await getTotalDistance(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
     const roundedDistanceNb = parseFloat(distanceNb.toFixed(2)); // Round to two decimal places
     setTotalDistance(roundedDistanceNb);
 
-    const durationNb = await getTotalDuration(Number(month) || 0,Number(month) || 0, Number(year)||0);
+    const durationNb = await getTotalDuration(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
     setTotalDuration(durationNb)
 
-    const besteffort1k = await getBestEffort1Km(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    const besteffort1k = await getBestEffort1Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
     setBestEffort1km(besteffort1k)
 
-    const besteffort5k = await getBestEffort5Km(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    const besteffort5k = await getBestEffort5Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
     setBestEffort5km(besteffort5k)
 
-    const besteffort10k = await getBestEffort10Km(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    const besteffort10k = await getBestEffort10Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
     setBestEffort10km(besteffort10k)
 
-    const besteffortHM = await getBestEffortHM(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    const besteffortHM = await getBestEffortHM(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
     setBestEffortHM(besteffortHM)
 
     const insightsData = await getInsightsForRange();
