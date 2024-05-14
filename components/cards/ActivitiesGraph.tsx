@@ -34,8 +34,8 @@ const ActivitiesGraph = ({
 
   const data = Array.from({ length: 365 }, (_, i) => ({
     date: new Date(2021, 0, i + 1).toISOString().split("T")[0],
-    count: Math.floor(Math.random() * 10),
-    level: Math.floor(Math.random() * 4),
+    count: i % 7,
+    level: i % 5,
   }));
   return (
     <div className="flex flex-col items-center justify-center py-4">
