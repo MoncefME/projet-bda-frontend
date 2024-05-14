@@ -1,3 +1,4 @@
+import { formatDuration } from "@/lib/utils";
 import Image from "next/image";
 
 const BestEffotsCard = ({
@@ -6,9 +7,11 @@ const BestEffotsCard = ({
   icon,
 }: {
   distance: string;
-  time: string;
+  time: string | null;
   icon: string;
 }) => {
+  if (time == "0") time = "No data";
+  if (!time) time = "Loading...";
   return (
     <div className="flex h-16 items-center justify-between rounded-lg bg-white p-4 shadow-md">
       <div className="flex items-center gap-2">
