@@ -15,6 +15,13 @@ import {
   getLongestStreak,
   getLongestBreak,
   getInsightsForRange,
+  getTotalActivities,
+  getTotalDistance,
+  getTotalDuration,
+  getBestEffort1Km,
+  getBestEffort5Km,
+  getBestEffort10Km,
+  getBestEffortHM
 } from "@/services/insights.service";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
@@ -30,11 +37,19 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     totalDuration,
     totalDistance,
     nbActivities,
+    bestEffort1km,
+    bestEffort5km,
+    bestEffort10km,
+    bestEffortHM,
     setLongestStreak,
     setLongestBreak,
     setNbActivities,
     setTotalDistance,
     setTotalDuration,
+    setBestEffort1km,
+    setBestEffort5km,
+    setBestEffort10km,
+    setBestEffortHM
   } = useInsightsStore();
 
   const fetchData = async () => {
@@ -43,11 +58,41 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
 
     const breakData = await getLongestBreak();
     setLongestBreak(breakData as any);
+    const year = params.slug?.[0];
+    const month = params.slug?.[1];
+    let startmonth = null;
+    let endmonth = null;
+
+    if(year){
+       startmonth = 1;
+       endmonth = 12;
+    }
+    const activitiesNb = await getTotalActivities(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
+    setNbActivities(activitiesNb)
+
+    const distanceNb = await getTotalDistance(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
+    const roundedDistanceNb = parseFloat(distanceNb.toFixed(2)); // Round to two decimal places
+    setTotalDistance(roundedDistanceNb);
+
+    const durationNb = await getTotalDuration(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
+    setTotalDuration(durationNb)
+
+    const besteffort1k = await getBestEffort1Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
+    setBestEffort1km(besteffort1k)
+
+    const besteffort5k = await getBestEffort5Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
+    setBestEffort5km(besteffort5k)
+
+    const besteffort10k = await getBestEffort10Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
+    setBestEffort10km(besteffort10k)
+
+    const besteffortHM = await getBestEffortHM(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
+    setBestEffortHM(besteffortHM)
 
     const insightsData = await getInsightsForRange();
-    setNbActivities(insightsData.numberOfActivities);
-    setTotalDistance(insightsData.cummulativeDistance);
-    setTotalDuration(insightsData.cummulativeTime);
+    // setNbActivities(insightsData.numberOfActivities);
+    // setTotalDistance(insightsData.cummulativeDistance);
+    // setTotalDuration(insightsData.cummulativeTime);
   };
 
   useEffect(() => {
@@ -109,22 +154,22 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
           {[
             {
               distance: "1km",
-              time: "03:00",
+              time: bestEffort1km,
               icon: "/icons/1st-place-medal_1f947.png",
             },
             {
               distance: "5km",
-              time: "20:00",
+              time: bestEffort5km,
               icon: "/icons/sparkles_2728.png",
             },
             {
               distance: "10km",
-              time: "45:00",
+              time: bestEffort10km,
               icon: "/icons/snail_1f40c.png",
             },
             {
               distance: "HM",
-              time: "01:40:00",
+              time: bestEffortHM,
               icon: "/icons/gem-stone_1f48e.png",
             },
           ].map((effort, index) => (
