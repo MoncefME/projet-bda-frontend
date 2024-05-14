@@ -49,3 +49,34 @@ export const getInsightsForRange = async (): Promise<InsightsForRange> => {
     numberOfActivities: Math.ceil(Math.random() * 1000),
   };
 };
+
+
+export const getTotalActivities = async (startMonth: number, endMonth: number, year: number): Promise<number | null> => {
+  const url = `http://localhost:8000/insights/find-total-activities?startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data.totalActivities; 
+  }
+  return null;
+};
+
+export const getTotalDistance = async (startMonth: number, endMonth: number, year: number): Promise<number | null> => {
+  const url = `http://localhost:8000/insights/find-total-distance?startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data.totalDistance; 
+  }
+  return null;
+};
+
+export const getTotalDuration = async (startMonth: number, endMonth: number, year: number): Promise<number | null> => {
+  const url = `http://localhost:8000/insights/find-total-duration?startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data.totalDuration; 
+  }
+  return null;
+};

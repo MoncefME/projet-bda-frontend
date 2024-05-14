@@ -15,6 +15,9 @@ import {
   getLongestStreak,
   getLongestBreak,
   getInsightsForRange,
+  getTotalActivities,
+  getTotalDistance,
+  getTotalDuration
 } from "@/services/insights.service";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
@@ -43,11 +46,21 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
 
     const breakData = await getLongestBreak();
     setLongestBreak(breakData as any);
+    const year = params.slug?.[0];
+    const month = params.slug?.[1];
+    const activitiesNb = await getTotalActivities(Number(month) || 1,Number(month) || 12, Number(year)||2024);
+    setNbActivities(activitiesNb)
+
+    const distanceNb = await getTotalDistance(Number(month) || 1,Number(month) || 12, Number(year)||2024);
+    setTotalDistance(distanceNb)
+
+    const durationNb = await getTotalDuration(Number(month) || 1,Number(month) || 12, Number(year)||2024);
+    setTotalDuration(durationNb)
 
     const insightsData = await getInsightsForRange();
-    setNbActivities(insightsData.numberOfActivities);
-    setTotalDistance(insightsData.cummulativeDistance);
-    setTotalDuration(insightsData.cummulativeTime);
+    // setNbActivities(insightsData.numberOfActivities);
+    // setTotalDistance(insightsData.cummulativeDistance);
+    // setTotalDuration(insightsData.cummulativeTime);
   };
 
   useEffect(() => {
