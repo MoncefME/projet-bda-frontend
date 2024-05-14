@@ -60,13 +60,14 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setLongestBreak(breakData as any);
     const year = params.slug?.[0];
     const month = params.slug?.[1];
-    const activitiesNb = await getTotalActivities(Number(month) || 1,Number(month) || 12, Number(year)||2024);
+    const activitiesNb = await getTotalActivities(Number(month) || 0,Number(month) || 0, Number(year)||0);
     setNbActivities(activitiesNb)
 
-    const distanceNb = await getTotalDistance(Number(month) || 1,Number(month) || 12, Number(year)||2024);
-    setTotalDistance(distanceNb)
+    const distanceNb = await getTotalDistance(Number(month) || 0, Number(month) || 0, Number(year) || 0);
+    const roundedDistanceNb = parseFloat(distanceNb.toFixed(2)); // Round to two decimal places
+    setTotalDistance(roundedDistanceNb);
 
-    const durationNb = await getTotalDuration(Number(month) || 1,Number(month) || 12, Number(year)||2024);
+    const durationNb = await getTotalDuration(Number(month) || 0,Number(month) || 0, Number(year)||0);
     setTotalDuration(durationNb)
 
     const besteffort1k = await getBestEffort1Km(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)

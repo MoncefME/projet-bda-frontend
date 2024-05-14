@@ -61,14 +61,14 @@ export const getTotalActivities = async (startMonth: number, endMonth: number, y
   return null;
 };
 
-export const getTotalDistance = async (startMonth: number, endMonth: number, year: number): Promise<number | null> => {
+export const getTotalDistance = async (startMonth: number, endMonth: number, year: number): Promise<number> => {
   const url = `http://localhost:8000/insights/find-total-distance?startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
   const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();
     return data.totalDistance; 
   }
-  return null;
+  return 0;
 };
 
 export const getTotalDuration = async (startMonth: number, endMonth: number, year: number): Promise<number | null> => {
