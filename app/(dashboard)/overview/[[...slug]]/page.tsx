@@ -17,7 +17,11 @@ import {
   getInsightsForRange,
   getTotalActivities,
   getTotalDistance,
-  getTotalDuration
+  getTotalDuration,
+  getBestEffort1Km,
+  getBestEffort5Km,
+  getBestEffort10Km,
+  getBestEffortHM
 } from "@/services/insights.service";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
@@ -33,11 +37,19 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     totalDuration,
     totalDistance,
     nbActivities,
+    bestEffort1km,
+    bestEffort5km,
+    bestEffort10km,
+    bestEffortHM,
     setLongestStreak,
     setLongestBreak,
     setNbActivities,
     setTotalDistance,
     setTotalDuration,
+    setBestEffort1km,
+    setBestEffort5km,
+    setBestEffort10km,
+    setBestEffortHM
   } = useInsightsStore();
 
   const fetchData = async () => {
@@ -56,6 +68,18 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
 
     const durationNb = await getTotalDuration(Number(month) || 1,Number(month) || 12, Number(year)||2024);
     setTotalDuration(durationNb)
+
+    const besteffort1k = await getBestEffort1Km(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    setBestEffort1km(besteffort1k)
+
+    const besteffort5k = await getBestEffort5Km(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    setBestEffort5km(besteffort5k)
+
+    const besteffort10k = await getBestEffort10Km(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    setBestEffort10km(besteffort10k)
+
+    const besteffortHM = await getBestEffortHM(43957994,Number(month) || 0,Number(month) || 0, Number(year)||0)
+    setBestEffortHM(besteffortHM)
 
     const insightsData = await getInsightsForRange();
     // setNbActivities(insightsData.numberOfActivities);
@@ -122,22 +146,22 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
           {[
             {
               distance: "1km",
-              time: "03:00",
+              time: bestEffort1km,
               icon: "/icons/1st-place-medal_1f947.png",
             },
             {
               distance: "5km",
-              time: "20:00",
+              time: bestEffort5km,
               icon: "/icons/sparkles_2728.png",
             },
             {
               distance: "10km",
-              time: "45:00",
+              time: bestEffort10km,
               icon: "/icons/snail_1f40c.png",
             },
             {
               distance: "HM",
-              time: "01:40:00",
+              time: bestEffortHM,
               icon: "/icons/gem-stone_1f48e.png",
             },
           ].map((effort, index) => (

@@ -80,3 +80,40 @@ export const getTotalDuration = async (startMonth: number, endMonth: number, yea
   }
   return null;
 };
+
+export const getBestEffort1Km = async (athleteId: number, startMonth: number, endMonth: number, year: number): Promise<string> => {
+  const url = `http://localhost:8000/insights/best-effort-1km?athleteId=${athleteId}&startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data.bestEffort1km; 
+  }
+  return "0";
+};
+export const getBestEffort5Km = async (athleteId: number, startMonth: number, endMonth: number, year: number): Promise<string> => {
+  const url = `http://localhost:8000/insights/best-effort-5km?athleteId=${athleteId}&startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data.bestEffort5km; 
+  }
+  return "0";
+};
+export const getBestEffort10Km = async (athleteId: number, startMonth: number, endMonth: number, year: number): Promise<string> => {
+  const url = `http://localhost:8000/insights/best-effort-10km?athleteId=${athleteId}&startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data.bestEffort10km; 
+  }
+  return "0";
+};
+export const getBestEffortHM = async (athleteId: number, startMonth: number, endMonth: number, year: number): Promise<string> => {
+  const url = `http://localhost:8000/insights/best-effort-hm?athleteId=${athleteId}&startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data.bestEffortHM; 
+  }
+  return "0";
+};
