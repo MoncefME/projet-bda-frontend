@@ -49,3 +49,20 @@ export const getInsightsForRange = async (): Promise<InsightsForRange> => {
     numberOfActivities: Math.ceil(Math.random() * 1000),
   };
 };
+
+
+export interface DailyValue {
+  date: string;
+  count: number;
+  level: number;
+}
+export const getDailyValue = async (year: number): Promise<DailyValue[] | null> => {
+  const response = await fetch(
+    `http://localhost:8000/insights//find-daily-values/${year}`,
+  );
+  if (response.ok) {
+    return response.json();
+  }
+  return null;
+};
+

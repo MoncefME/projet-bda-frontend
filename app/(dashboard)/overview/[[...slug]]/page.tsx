@@ -15,6 +15,7 @@ import {
   getLongestStreak,
   getLongestBreak,
   getInsightsForRange,
+  getDailyValue,
 } from "@/services/insights.service";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
@@ -27,11 +28,13 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
   const {
     longestStreak,
     longestBreak,
+    dailyValue,
     totalDuration,
     totalDistance,
     nbActivities,
     setLongestStreak,
     setLongestBreak,
+    setDailyValue,
     setNbActivities,
     setTotalDistance,
     setTotalDuration,
@@ -43,6 +46,9 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
 
     const breakData = await getLongestBreak();
     setLongestBreak(breakData as any);
+
+    const dailyValueData = await getDailyValue(Number(params.slug?.[0]));
+    setDailyValue(dailyValueData as any);
 
     const insightsData = await getInsightsForRange();
     setNbActivities(insightsData.numberOfActivities);
@@ -71,12 +77,10 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         </div>
       </div>
 
-      <div className="no-scrollbar flex  flex-col justify-center  overflow-x-scroll">
+      <div className="bg-white p-4 rounded-lg no-scrollbar flex  flex-col justify-center  overflow-x-scroll">
         <h1 className="text-3xl font-semibold">Activites Graph</h1>
         <ActivitiesGraph
-          startDate="2021-01-01"
-          endDate="2021-12-31"
-          size={19}
+          dailyValue={dailyValue}
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
