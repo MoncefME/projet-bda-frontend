@@ -39,6 +39,14 @@ const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
   const [disabled, setDisabled] = useState(false);
 
   const { startDay, endDay, setStartDay, setEndDay } = useActivitiesStore();
+  const getStartDay = (): Date => {
+    return startDay;
+  };
+
+  // Function to get the endDay value
+  const getEndDay = (): Date => {
+    return endDay;
+  };
 
   useEffect(() => {
     if (selectedYear === "Alltimes") {
