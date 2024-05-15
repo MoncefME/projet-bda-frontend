@@ -2,14 +2,36 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import DataCard from "@/components/cards/DataCard";
+import YearsMonthsControl from "@/components/cards/YearsMonthsControl";
 import { Activity } from "@/components/activitiesTable/columns";
-import { getActivityById } from "@/services/activity.service";
-
-const ActivityPage = ({ params }: { params: { activityId: number } }) => {
+import { getActivityById , getSpeedVSDistance} from "@/services/activity.service";
+import { useActivitiesStore } from "@/store/activities.store";
+import DistanceVsAverageSpeedChart from "@/components/cards/ScatterChart";
+const ActivityPage = ({ params }: { params: { activityId: number, slug: string[] } }) => {
   const [activity, setActivty] = useState<Activity | null>(null);
+  const activitiesStore = useActivitiesStore();
+  const speedDistance = activitiesStore.speedDistance;
+  const setSpeedDistance = activitiesStore.setSpeedDistance;
+
+  const route = `activities/${params.activityId}`;
+  
 
   const fetchActivityData = async () => {
     const response = await getActivityById(params.activityId);
+    
+    const year = params.slug?.[0];
+    const month = params.slug?.[1];
+    let startmonth = null;
+    let endmonth = null;
+
+    if(year){
+       startmonth = 1;
+       endmonth = 12;
+    }
+    const speedDistanceResponse = await getSpeedVSDistance(params.activityId,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
+    setSpeedDistance(speedDistanceResponse);
+    
+
 
     if (response) {
       setActivty({
@@ -35,6 +57,9 @@ const ActivityPage = ({ params }: { params: { activityId: number } }) => {
         <p className="text-3xl font-semibold">{activity?.title}</p>
         <p>Date: {activity?.date}</p>
       </div>
+      <div className="col-span-1 ">
+            <YearsMonthsControl slug={params.slug || []} route ={route} />
+      </div>
 
       <div className="grid grid-cols-4 gap-4">
         <DataCard data={activity?.distance} dataType="Distance" unit="Km" />
@@ -59,14 +84,9 @@ const ActivityPage = ({ params }: { params: { activityId: number } }) => {
           <p>A chart to be determinded later , but its nice to have one here</p>
         </div>
         <div className="col-span-1 flex h-80  flex-col items-center justify-center gap-8 rounded-lg bg-white p-4 shadow-md">
-          <p className="self-start text-3xl font-semibold">Chart Title</p>
-          <Image
-            src="/icons/bar-chart_1f4ca.png"
-            width={150}
-            height={150}
-            alt="icon"
-          />
-          <p>A chart to be determinded later , but its nice to have one here</p>
+          
+          <DistanceVsAverageSpeedChart data={speedDistance} />
+
         </div>
       </div>
     </div>

@@ -44,3 +44,13 @@ export const getActivityById = async (id: number) => {
   }
   return null;
 };
+
+export const getSpeedVSDistance = async (activityId: number,startMonth: number, endMonth: number, year: number): Promise<{ distance: number; averageSpeed: number }[] | null>  => {
+  const url = `http://localhost:8000/activities/speed-vs-distance/${activityId}?startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`;
+  const response = await fetch(url);
+  if (response.ok) {
+    const data = await response.json();
+    return data; 
+  }
+  return null;
+};
