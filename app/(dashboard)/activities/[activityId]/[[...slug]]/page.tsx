@@ -73,7 +73,7 @@ const ActivityPage = ({ params }: { params: { activityId: number, slug: string[]
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="col-span-1 flex h-80  flex-col items-center justify-center gap-8 rounded-lg bg-white p-4 shadow-md">
+        {/* <div className="col-span-1 flex h-80  flex-col items-center justify-center gap-8 rounded-lg bg-white p-4 shadow-md">
           <p className="self-start text-3xl font-semibold">Chart Title</p>
           <Image
             src="/icons/bar-chart_1f4ca.png"
@@ -82,7 +82,7 @@ const ActivityPage = ({ params }: { params: { activityId: number, slug: string[]
             alt="icon"
           />
           <p>A chart to be determinded later , but its nice to have one here</p>
-        </div>
+        </div> */}
         <div className="col-span-1 flex h-80  flex-col items-center justify-center gap-8 rounded-lg bg-white p-4 shadow-md">
           
           <DistanceVsAverageSpeedChart data={speedDistance} />
