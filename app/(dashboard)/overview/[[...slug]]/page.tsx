@@ -7,6 +7,7 @@ import ActivitiesGraph from "@/components/cards/ActivitiesGraph";
 import BestEffotsCard from "@/components/cards/BestEffotsCard";
 import YearsMonthsControl from "@/components/cards/YearsMonthsControl";
 import DataCard from "@/components/cards/DataCard";
+import { formatDate } from "@/lib/utils";
 
 // Store & Services
 import { useInsightsStore } from "@/store/insights.store";
@@ -23,6 +24,7 @@ import {
   getBestEffortHM,
   getMonthlyDistances,
   getDailyValue,
+  getWeekActivityResult,
 } from "@/services/insights.service";
 import BarChart from "@/components/cards/BarChart";
 
@@ -41,6 +43,10 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     totalDistance,
     monthlyDistances,
     nbActivities,
+    mostDay,
+    leastDay,
+    mostDayCount,
+    leastDayCount,
     bestEffort1km,
     bestEffort5km,
     bestEffort10km,
@@ -51,6 +57,10 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setNbActivities,
     setTotalDistance,
     setTotalDuration,
+    setMostDay,
+    setLeastDay,
+    setMostDayCount,
+    setLeastDayCount,
     setBestEffort1km,
     setBestEffort5km,
     setBestEffort10km,
@@ -128,6 +138,13 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
       Number(year) || 0,
     );
     setBestEffortHM(besteffortHM);
+    const startDate =
+      (Number(year).toString() || "2023") +
+      "-" +
+      (String(month).padStart(2, "0") ||
+        String(startmonth).padStart(2, "0") ||
+        "01") +
+      "-01";
 
     const yearDistance =
       params.slug?.[0] || new Date().getFullYear().toString();
@@ -137,12 +154,53 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setMonthlyDistances(monthlyDistancesData);
     const dailyValueData = await getDailyValue(Number(params.slug?.[0]));
     setDailyValue(dailyValueData as any);
+    const endDate =
+      (Number(year).toString() || "2023") +
+      "-" +
+      (String(month).padStart(2, "0") ||
+        String(endmonth).padStart(2, "0") ||
+        "12") +
+      "-28";
+
+    console.log("start", startDate);
+    console.log("end", endDate);
+
+    const weekActivityResult = await getWeekActivityResult(
+      startDate,
+      endDate,
+      // "2024-01-01", "2024-12-30"
+    );
+
+    setLeastDay(weekActivityResult?.MIN_ACTIVITIES_DAY || null);
+    setLeastDayCount(weekActivityResult?.MIN_ACTIVITIES_COUNT || 0);
+    setMostDay(weekActivityResult?.MAX_ACTIVITIES_DAY || null);
+    setMostDayCount(weekActivityResult?.MAX_ACTIVITIES_COUNT || 55);
+    console.log(
+      "weekActivityResult",
+      weekActivityResult,
+      "mostDay",
+      mostDay,
+      "mostDayCOUNT",
+      mostDayCount,
+      leastDay,
+      leastDayCount,
+    );
+    console.log(
+      "weekActivityResult?.max_activities_day",
+      weekActivityResult?.MAX_ACTIVITIES_DAY,
+    );
   };
 
   useEffect(() => {
     console.log("params", params.slug);
     fetchData();
   }, []);
+  useEffect(() => {
+    // This effect will run whenever mostDay changes
+    console.log("mostDay updated:", mostDay);
+    // You can use mostDay here to conditionally render UI elements
+  }, [mostDay]);
+
   console.log("rendering overview page");
   return (
     <div className="flex w-full flex-col gap-8 bg-blue-100 p-4">
@@ -174,8 +232,16 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         <div className="grid grid-cols-2 gap-2">
           <DataCard dataType="Streak" data={longestStreak?.days} unit="Days" />
           <DataCard dataType="Break" data={longestBreak?.days} unit="Days" />
-          <DataCard data="Friday" dataType="Most often" unit="51 times" />
-          <DataCard data="Monday" dataType="Least often" unit="11 times" />
+          <DataCard
+            data={mostDay}
+            dataType="Most often"
+            unit={mostDayCount?.toString() + "times"}
+          />
+          <DataCard
+            data={leastDay}
+            dataType="Least often"
+            unit={leastDayCount?.toString() + "times"}
+          />
         </div>
       </div>
 

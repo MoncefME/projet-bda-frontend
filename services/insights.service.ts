@@ -37,6 +37,10 @@ export interface InsightsForRange {
   cummulativeDistance: number;
   cummulativeTime: number;
   numberOfActivities: number;
+  mostDay: string;
+  leastDay: string;
+  mostDayCount: number;
+  leastDayCount: number;
 }
 
 export const getTotalActivities = async (
@@ -170,6 +174,33 @@ export const getDailyValue = async (
   );
   if (response.ok) {
     return response.json();
+  }
+  return null;
+};
+
+export interface ActivityResult {
+  MAX_ACTIVITIES_DAY: string;
+  MAX_ACTIVITIES_COUNT: number;
+  MIN_ACTIVITIES_DAY: string | null;
+  MIN_ACTIVITIES_COUNT: number;
+}
+
+export const getWeekActivityResult = async (
+  startDate: string,
+  endDate: string,
+): Promise<ActivityResult | null> => {
+  const response = await fetch(
+    `http://localhost:8000/insights/day-most-activities?start_date=${startDate}&end_date=${endDate}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  if (response.ok) {
+    const data = await response.json();
+    return data;
   }
   return null;
 };

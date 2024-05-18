@@ -45,6 +45,14 @@ const YearsMonthsControl = ({
   const [disabled, setDisabled] = useState(false);
 
   const { startDay, endDay, setStartDay, setEndDay } = useActivitiesStore();
+  const getStartDay = (): Date => {
+    return startDay;
+  };
+
+  // Function to get the endDay value
+  const getEndDay = (): Date => {
+    return endDay;
+  };
 
   useEffect(() => {
     if (selectedYear === "Alltimes") {
@@ -78,7 +86,7 @@ const YearsMonthsControl = ({
     setEndDay(endDate);
   }, [selectedMonth, selectedYear]);
 
-  console.log("--------------->", formatDate(startDay), formatDate(endDay));
+  //console.log("--------------->", formatDate(startDay), formatDate(endDay));
 
   const router = useRouter();
 

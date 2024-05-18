@@ -3,6 +3,7 @@ import {
   LongestStreak,
   MonthlyDistance,
   DailyValue,
+  ActivityResult,
 } from "@/services/insights.service";
 
 import { create } from "zustand";
@@ -25,6 +26,10 @@ interface InsightsInterface {
   bestEffort5km: string | null;
   bestEffort10km: string | null;
   bestEffortHM: string | null;
+  mostDay: string | null;
+  leastDay: string | null;
+  mostDayCount: number | null;
+  leastDayCount: number | null;
 
   monthlyDistances: MonthlyDistance[] | null;
   setMonthlyDistances: (monthlyDistances: MonthlyDistance[] | null) => void;
@@ -39,6 +44,10 @@ interface InsightsInterface {
   setBestEffort10km: (bestEffort10km: string | null) => void;
   setBestEffortHM: (bestEffortHM: string | null) => void;
   setDailyValue: (dailyValue: DailyValue[]) => void;
+  setMostDay: (mostDay: string | null) => void;
+  setLeastDay: (leastDay: string | null) => void;
+  setMostDayCount: (mostDayCount: number | null) => void;
+  setLeastDayCount: (leastDayCount: number | null) => void;
 }
 
 export const useInsightsStore = create<InsightsInterface>((set) => ({
@@ -48,6 +57,10 @@ export const useInsightsStore = create<InsightsInterface>((set) => ({
   totalDuration: null,
   totalDistance: null,
   nbActivities: null,
+  mostDay: "",
+  leastDay: "",
+  mostDayCount: 0,
+  leastDayCount: 0,
   bestEffort1km: null,
   bestEffort5km: null,
   bestEffort10km: null,
@@ -60,6 +73,10 @@ export const useInsightsStore = create<InsightsInterface>((set) => ({
   setTotalDuration: (totalDuration) => set({ totalDuration }),
   setTotalDistance: (totalDistance) => set({ totalDistance }),
   setNbActivities: (nbActivities) => set({ nbActivities }),
+  setMostDay: (mostDay) => set({ mostDay }),
+  setLeastDay: (leastDay) => set({ leastDay }),
+  setMostDayCount: (mostDayCount) => set({ mostDayCount }),
+  setLeastDayCount: (leastDayCount) => set({ leastDayCount }),
   setBestEffort1km: (bestEffort1km) => set({ bestEffort1km }),
   setBestEffort5km: (bestEffort5km) => set({ bestEffort5km }),
   setBestEffort10km: (bestEffort10km) => set({ bestEffort10km }),
