@@ -1,4 +1,9 @@
-import { LongestBreak, LongestStreak } from "@/services/insights.service";
+import {
+  LongestBreak,
+  LongestStreak,
+  MonthlyDistance,
+} from "@/services/insights.service";
+
 import { create } from "zustand";
 
 interface useInsightsStoreProps {
@@ -17,6 +22,9 @@ interface InsightsInterface {
   bestEffort5km: string | null;
   bestEffort10km: string | null;
   bestEffortHM: string | null;
+
+  monthlyDistances: MonthlyDistance[] | null;
+  setMonthlyDistances: (monthlyDistances: MonthlyDistance[] | null) => void;
 
   setLongestStreak: (longestStreak: LongestStreak) => void;
   setLongestBreak: (longestBreak: LongestBreak) => void;
@@ -40,6 +48,7 @@ export const useInsightsStore = create<InsightsInterface>((set) => ({
   bestEffort10km: null,
   bestEffortHM: null,
 
+  monthlyDistances: null,
   setLongestStreak: (longestStreak) => set({ longestStreak }),
   setLongestBreak: (longestBreak) => set({ longestBreak }),
   setTotalDuration: (totalDuration) => set({ totalDuration }),
@@ -49,4 +58,5 @@ export const useInsightsStore = create<InsightsInterface>((set) => ({
   setBestEffort5km: (bestEffort5km) => set({ bestEffort5km }),
   setBestEffort10km: (bestEffort10km) => set({ bestEffort10km }),
   setBestEffortHM: (bestEffortHM) => set({ bestEffortHM }),
+  setMonthlyDistances: (monthlyDistances) => set({ monthlyDistances }),
 }));
