@@ -13,20 +13,20 @@ interface InsightsInterface {
   totalDuration: number | null;
   totalDistance: number | null;
   nbActivities: number | null;
-  bestEffort1km: number | null;
-  bestEffort5km: number | null;
-  bestEffort10km: number | null;
-  bestEffortHM: number | null;
+  bestEffort1km: string | null;
+  bestEffort5km: string | null;
+  bestEffort10km: string | null;
+  bestEffortHM: string | null;
 
   setLongestStreak: (longestStreak: LongestStreak) => void;
   setLongestBreak: (longestBreak: LongestBreak) => void;
-  setTotalDuration: (totalDuration: number) => void;
-  setTotalDistance: (totalDistance: number) => void;
-  setNbActivities: (nbActivities: number) => void;
-  setBestEffort1km: (nbActivities: string) => void;
-  setBestEffort5km: (nbActivities: string) => void;
-  setBestEffort10km: (nbActivities: string) => void;
-  setBestEffortHM: (nbActivities: string) => void;
+  setTotalDuration: (totalDuration: number | null) => void;
+  setTotalDistance: (totalDistance: number | null) => void;
+  setNbActivities: (nbActivities: number | null) => void;
+  setBestEffort1km: (bestEffort1km: string | null) => void;
+  setBestEffort5km: (bestEffort5km: string | null) => void;
+  setBestEffort10km: (bestEffort10km: string | null) => void;
+  setBestEffortHM: (bestEffortHM: string | null) => void;
 }
 
 export const useInsightsStore = create<InsightsInterface>((set) => ({

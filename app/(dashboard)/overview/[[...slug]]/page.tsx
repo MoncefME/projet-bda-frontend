@@ -11,17 +11,17 @@ import DataCard from "@/components/cards/DataCard";
 
 // Store & Services
 import { useInsightsStore } from "@/store/insights.store";
+
 import {
   getLongestStreak,
   getLongestBreak,
-  getInsightsForRange,
   getTotalActivities,
   getTotalDistance,
   getTotalDuration,
   getBestEffort1Km,
   getBestEffort5Km,
   getBestEffort10Km,
-  getBestEffortHM
+  getBestEffortHM,
 } from "@/services/insights.service";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
@@ -49,7 +49,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setBestEffort1km,
     setBestEffort5km,
     setBestEffort10km,
-    setBestEffortHM
+    setBestEffortHM,
   } = useInsightsStore();
 
   const fetchData = async () => {
@@ -63,33 +63,67 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     let startmonth = null;
     let endmonth = null;
 
-    if(year){
-       startmonth = 1;
-       endmonth = 12;
+    if (year) {
+      startmonth = 1;
+      endmonth = 12;
     }
-    const activitiesNb = await getTotalActivities(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
-    setNbActivities(activitiesNb)
 
-    const distanceNb = await getTotalDistance(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
+    const activitiesNb = await getTotalActivities(
+      Number(month) || startmonth || 0,
+      Number(month) || endmonth || 0,
+      Number(year) || 0,
+    );
+    setNbActivities(activitiesNb);
+
+    const distanceNb = await getTotalDistance(
+      Number(month) || startmonth || 0,
+      Number(month) || endmonth || 0,
+      Number(year) || 0,
+    );
     const roundedDistanceNb = parseFloat(distanceNb.toFixed(2)); // Round to two decimal places
     setTotalDistance(roundedDistanceNb);
 
-    const durationNb = await getTotalDuration(Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0);
-    setTotalDuration(durationNb)
+    const durationNb = await getTotalDuration(
+      Number(month) || startmonth || 0,
+      Number(month) || endmonth || 0,
+      Number(year) || 0,
+    );
+    setTotalDuration(durationNb);
 
-    const besteffort1k = await getBestEffort1Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
-    setBestEffort1km(besteffort1k)
+    const besteffort1k = await getBestEffort1Km(
+      43957994,
+      Number(month) || startmonth || 0,
+      Number(month) || endmonth || 0,
+      Number(year) || 0,
+    );
 
-    const besteffort5k = await getBestEffort5Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
-    setBestEffort5km(besteffort5k)
+    setBestEffort1km(besteffort1k);
 
-    const besteffort10k = await getBestEffort10Km(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
-    setBestEffort10km(besteffort10k)
+    const besteffort5k = await getBestEffort5Km(
+      43957994,
+      Number(month) || startmonth || 0,
+      Number(month) || endmonth || 0,
+      Number(year) || 0,
+    );
+    setBestEffort5km(besteffort5k);
 
-    const besteffortHM = await getBestEffortHM(43957994,Number(month) ||startmonth || 0,Number(month) || endmonth || 0, Number(year)||0)
-    setBestEffortHM(besteffortHM)
+    const besteffort10k = await getBestEffort10Km(
+      43957994,
+      Number(month) || startmonth || 0,
+      Number(month) || endmonth || 0,
+      Number(year) || 0,
+    );
+    setBestEffort10km(besteffort10k);
 
-    const insightsData = await getInsightsForRange();
+    const besteffortHM = await getBestEffortHM(
+      43957994,
+      Number(month) || startmonth || 0,
+      Number(month) || endmonth || 0,
+      Number(year) || 0,
+    );
+    setBestEffortHM(besteffortHM);
+
+    // const insightsData = await getInsightsForRange();
     // setNbActivities(insightsData.numberOfActivities);
     // setTotalDistance(insightsData.cummulativeDistance);
     // setTotalDuration(insightsData.cummulativeTime);
