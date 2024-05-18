@@ -4,9 +4,12 @@ export interface LongestStreak {
   days: number;
 }
 
-export const getLongestStreak = async (): Promise<LongestStreak | null> => {
+export const getLongestStreak = async (
+  startDate: string,
+  endDate: string,
+): Promise<LongestStreak | null> => {
   const response = await fetch(
-    "http://localhost:8000/insights/find-longest-streak",
+    `http://localhost:8000/insights/find-longest-streak?startDate=${startDate}&endDate=${endDate}`,
   );
   if (response.ok) {
     return response.json();
@@ -20,9 +23,12 @@ export interface LongestBreak {
   days: number;
 }
 
-export const getLongestBreak = async (): Promise<LongestBreak | null> => {
+export const getLongestBreak = async (
+  startDate: string,
+  endDate: string,
+): Promise<LongestBreak | null> => {
   const response = await fetch(
-    "http://localhost:8000/insights/find-longest-break",
+    `http://localhost:8000/insights/find-longest-break?startDate=${startDate}&endDate=${endDate}`,
   );
   if (response.ok) {
     return response.json();

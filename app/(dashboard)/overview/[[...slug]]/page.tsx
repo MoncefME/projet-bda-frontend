@@ -7,7 +7,7 @@ import ActivitiesGraph from "@/components/cards/ActivitiesGraph";
 import BestEffotsCard from "@/components/cards/BestEffotsCard";
 import YearsMonthsControl from "@/components/cards/YearsMonthsControl";
 import DataCard from "@/components/cards/DataCard";
-import { formatDate } from "@/lib/utils";
+import { formatDate, getDateRange } from "@/lib/utils";
 
 // Store & Services
 import { useInsightsStore } from "@/store/insights.store";
@@ -34,7 +34,6 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     if params are { "slug": [ "2020" ] }=> year overview
     if parms are { "slug": [ "2020", "2" ] } => month of the year overview
   */
-
   const {
     longestStreak,
     longestBreak,
@@ -69,11 +68,9 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
   } = useInsightsStore();
 
   const fetchData = async () => {
-    const streakData = await getLongestStreak();
-    setLongestStreak(streakData as any);
+    const { startDate: start_date_utils, endDate: end_date_utils } =
+      getDateRange({ slug: params.slug });
 
-    const breakData = await getLongestBreak();
-    setLongestBreak(breakData as any);
     const year = params.slug?.[0];
     const month = params.slug?.[1];
     let startmonth = null;
@@ -138,13 +135,6 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
       Number(year) || 0,
     );
     setBestEffortHM(besteffortHM);
-    const startDate =
-      (Number(year).toString() || "2023") +
-      "-" +
-      (String(month).padStart(2, "0") ||
-        String(startmonth).padStart(2, "0") ||
-        "01") +
-      "-01";
 
     const yearDistance =
       params.slug?.[0] || new Date().getFullYear().toString();
@@ -154,27 +144,22 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setMonthlyDistances(monthlyDistancesData);
     const dailyValueData = await getDailyValue(Number(params.slug?.[0]));
     setDailyValue(dailyValueData as any);
-    const endDate =
-      (Number(year).toString() || "2023") +
-      "-" +
-      (String(month).padStart(2, "0") ||
-        String(endmonth).padStart(2, "0") ||
-        "12") +
-      "-28";
 
-    console.log("start", startDate);
-    console.log("end", endDate);
+    const streakData = await getLongestStreak(start_date_utils, end_date_utils);
+    setLongestStreak(streakData as any);
+
+    const breakData = await getLongestBreak(start_date_utils, end_date_utils);
+    setLongestBreak(breakData as any);
 
     const weekActivityResult = await getWeekActivityResult(
-      startDate,
-      endDate,
-      // "2024-01-01", "2024-12-30"
+      start_date_utils,
+      end_date_utils,
     );
 
     setLeastDay(weekActivityResult?.MIN_ACTIVITIES_DAY || null);
     setLeastDayCount(weekActivityResult?.MIN_ACTIVITIES_COUNT || 0);
     setMostDay(weekActivityResult?.MAX_ACTIVITIES_DAY || null);
-    setMostDayCount(weekActivityResult?.MAX_ACTIVITIES_COUNT || 55);
+    setMostDayCount(weekActivityResult?.MAX_ACTIVITIES_COUNT || 0);
     console.log(
       "weekActivityResult",
       weekActivityResult,
@@ -192,14 +177,8 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
   };
 
   useEffect(() => {
-    console.log("params", params.slug);
     fetchData();
   }, []);
-  useEffect(() => {
-    // This effect will run whenever mostDay changes
-    console.log("mostDay updated:", mostDay);
-    // You can use mostDay here to conditionally render UI elements
-  }, [mostDay]);
 
   console.log("rendering overview page");
   return (

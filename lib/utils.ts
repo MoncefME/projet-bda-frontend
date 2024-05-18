@@ -38,3 +38,35 @@ export const formatDuration = (duration: number): string => {
 export const formatCalories = (calories: number): string => {
   return calories.toFixed(0);
 };
+
+type DateRange = {
+  startDate: string;
+  endDate: string;
+};
+
+export const getDateRange = (params: { slug?: string[] }): DateRange => {
+  const { slug } = params;
+
+  let startDate: string;
+  let endDate: string;
+
+  if (!slug || slug.length === 0) {
+    startDate = "0000-01-01";
+    endDate = "9999-12-31";
+  } else if (slug.length === 1) {
+    const year = slug[0];
+    startDate = `${year}-01-01`;
+    endDate = `${year}-12-31`;
+  } else if (slug.length === 2) {
+    const year = slug[0];
+    const month = slug[1].padStart(2, "0");
+    startDate = `${year}-${month}-01`;
+
+    const endDay = new Date(parseInt(year), parseInt(month), 0).getDate();
+    endDate = `${year}-${month}-${endDay}`;
+  } else {
+    throw new Error("Invalid slug format");
+  }
+
+  return { startDate, endDate };
+};
