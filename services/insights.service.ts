@@ -146,10 +146,10 @@ export const getBestEffortHM = async (
 };
 
 export interface ActivityResult {
-  max_activities_day: string;
-  max_activities_count: number;
-  min_activities_day: string | null;
-  min_activities_count: number;
+  MAX_ACTIVITIES_DAY: string;
+  MAX_ACTIVITIES_COUNT: number;
+  MIN_ACTIVITIES_DAY: string | null;
+  MIN_ACTIVITIES_COUNT: number;
 }
 
 export const getWeekActivityResult = async (
@@ -166,7 +166,8 @@ export const getWeekActivityResult = async (
     },
   );
   if (response.ok) {
-    return response.json();
+    const data = await response.json();
+    return data;
   }
   return null;
 };

@@ -80,7 +80,7 @@ const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
     setEndDay(endDate);
   }, [selectedMonth, selectedYear]);
 
-  console.log("--------------->", formatDate(startDay), formatDate(endDay));
+  //console.log("--------------->", formatDate(startDay), formatDate(endDay));
 
   const router = useRouter();
 

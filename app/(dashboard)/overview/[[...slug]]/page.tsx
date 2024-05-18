@@ -158,10 +158,10 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
       // "2024-01-01", "2024-12-30"
     );
 
-    setLeastDay(weekActivityResult?.min_activities_day || null);
-    setLeastDayCount(weekActivityResult?.min_activities_count || 0);
-    setMostDay(weekActivityResult?.max_activities_day || null);
-    setMostDayCount(weekActivityResult?.max_activities_count || 55);
+    setLeastDay(weekActivityResult?.MIN_ACTIVITIES_DAY || null);
+    setLeastDayCount(weekActivityResult?.MIN_ACTIVITIES_COUNT || 0);
+    setMostDay(weekActivityResult?.MAX_ACTIVITIES_DAY || null);
+    setMostDayCount(weekActivityResult?.MAX_ACTIVITIES_COUNT || 55);
     console.log(
       "weekActivityResult",
       weekActivityResult,
@@ -171,6 +171,10 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
       mostDayCount,
       leastDay,
       leastDayCount,
+    );
+    console.log(
+      "weekActivityResult?.max_activities_day",
+      weekActivityResult?.MAX_ACTIVITIES_DAY,
     );
   };
 
