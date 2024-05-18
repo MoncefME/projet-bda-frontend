@@ -145,8 +145,29 @@ export interface MonthlyDistance {
   distance: number;
 }
 
-export const getMonthlyDistances = async (year: number): Promise<MonthlyDistance[] | null> => {
-  const response = await fetch(`http://localhost:8000/insights/monthly-distances?year=${year}`);
+export const getMonthlyDistances = async (
+  year: number,
+): Promise<MonthlyDistance[] | null> => {
+  const response = await fetch(
+    `http://localhost:8000/insights/monthly-distances?year=${year}`,
+  );
+  if (response.ok) {
+    return response.json();
+  }
+  return null;
+};
+
+export interface DailyValue {
+  date: string;
+  count: number;
+  level: number;
+}
+export const getDailyValue = async (
+  year: number,
+): Promise<DailyValue[] | null> => {
+  const response = await fetch(
+    `http://localhost:8000/insights//find-daily-values/${year}`,
+  );
   if (response.ok) {
     return response.json();
   }

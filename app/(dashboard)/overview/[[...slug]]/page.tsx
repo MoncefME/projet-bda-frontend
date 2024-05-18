@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useMemo } from "react";
-import Image from "next/image";
+import { useEffect } from "react";
 
 // Components
 import ActivitiesTable from "@/components/activitiesTable/ActivitiesTable";
@@ -23,6 +22,7 @@ import {
   getBestEffort10Km,
   getBestEffortHM,
   getMonthlyDistances,
+  getDailyValue,
 } from "@/services/insights.service";
 import BarChart from "@/components/cards/BarChart";
 
@@ -31,11 +31,12 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     if params are {} => Alltime overview
     if params are { "slug": [ "2020" ] }=> year overview
     if parms are { "slug": [ "2020", "2" ] } => month of the year overview
-
   */
+
   const {
     longestStreak,
     longestBreak,
+    dailyValue,
     totalDuration,
     totalDistance,
     monthlyDistances,
@@ -46,6 +47,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     bestEffortHM,
     setLongestStreak,
     setLongestBreak,
+    setDailyValue,
     setNbActivities,
     setTotalDistance,
     setTotalDuration,
@@ -84,7 +86,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
       Number(month) || endmonth || 0,
       Number(year) || 0,
     );
-    const roundedDistanceNb = parseFloat(distanceNb.toFixed(2)); // Round to two decimal places
+    const roundedDistanceNb = parseFloat(distanceNb.toFixed(2));
     setTotalDistance(roundedDistanceNb);
 
     const durationNb = await getTotalDuration(
@@ -133,6 +135,8 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
       Number(yearDistance),
     );
     setMonthlyDistances(monthlyDistancesData);
+    const dailyValueData = await getDailyValue(Number(params.slug?.[0]));
+    setDailyValue(dailyValueData as any);
   };
 
   useEffect(() => {
@@ -156,13 +160,9 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
         </div>
       </div>
 
-      <div className="no-scrollbar flex  flex-col justify-center  overflow-x-scroll">
+      <div className="no-scrollbar flex flex-col justify-center overflow-x-scroll  rounded-lg bg-white  p-4">
         <h1 className="text-3xl font-semibold">Activites Graph</h1>
-        <ActivitiesGraph
-          startDate="2021-01-01"
-          endDate="2021-12-31"
-          size={19}
-        />
+        <ActivitiesGraph dailyValue={dailyValue} />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-1 gap-2">

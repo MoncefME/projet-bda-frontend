@@ -23,7 +23,7 @@ const MONTHS_LABELS = [
   "Dec",
 ];
 
-const YEARS_LABELS = ["Alltimes", 2019, 2020, 2021, 2022, 2023, 2024];
+const YEARS_LABELS = ["Alltimes", 2021, 2022, 2023, 2024];
 
 const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
   if (slug.length === 0) {

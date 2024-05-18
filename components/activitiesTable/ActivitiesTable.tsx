@@ -9,7 +9,6 @@ import { useActivitiesStore } from "@/store/activities.store";
 
 const ActivitiesTable = () => {
   const { activities, setActivities } = useActivitiesStore();
-  // const [data, setData] = useState<Activity[]>([]);
   useEffect(() => {
     const FetchData = async () => {
       const data = await getActivities();

@@ -2,11 +2,13 @@ import {
   LongestBreak,
   LongestStreak,
   MonthlyDistance,
+  DailyValue,
 } from "@/services/insights.service";
 
 import { create } from "zustand";
 
 interface useInsightsStoreProps {
+  year: number;
   startDate: string;
   endDate: string;
   userId: string;
@@ -15,6 +17,7 @@ interface useInsightsStoreProps {
 interface InsightsInterface {
   longestStreak: LongestStreak | null;
   longestBreak: LongestBreak | null;
+  dailyValue: DailyValue[] | null;
   totalDuration: number | null;
   totalDistance: number | null;
   nbActivities: number | null;
@@ -35,11 +38,13 @@ interface InsightsInterface {
   setBestEffort5km: (bestEffort5km: string | null) => void;
   setBestEffort10km: (bestEffort10km: string | null) => void;
   setBestEffortHM: (bestEffortHM: string | null) => void;
+  setDailyValue: (dailyValue: DailyValue[]) => void;
 }
 
 export const useInsightsStore = create<InsightsInterface>((set) => ({
   longestStreak: null,
   longestBreak: null,
+  dailyValue: null,
   totalDuration: null,
   totalDistance: null,
   nbActivities: null,
@@ -51,6 +56,7 @@ export const useInsightsStore = create<InsightsInterface>((set) => ({
   monthlyDistances: null,
   setLongestStreak: (longestStreak) => set({ longestStreak }),
   setLongestBreak: (longestBreak) => set({ longestBreak }),
+  setDailyValue: (dailyValue) => set({ dailyValue }),
   setTotalDuration: (totalDuration) => set({ totalDuration }),
   setTotalDistance: (totalDistance) => set({ totalDistance }),
   setNbActivities: (nbActivities) => set({ nbActivities }),
