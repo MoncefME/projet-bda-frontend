@@ -1,23 +1,26 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect, useRef } from "react";
+import Chart from "chart.js/auto";
 
-const DistanceVsAverageSpeedChart = ({ data }) => {
+const DistanceVsAverageSpeedChart = ({ data }: any) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
     if (chartRef.current) {
-      const distances = data.map((item) => item.distance);
-      const averageSpeeds = data.map((item) => item.averageSpeed);
+      const distances = data.map((item: any) => item.distance);
+      const averageSpeeds = data.map((item: any) => item.averageSpeed);
 
       const myChart = new Chart(chartRef.current, {
-        type: 'scatter',
+        type: "scatter",
         data: {
           labels: distances,
           datasets: [
             {
-              label: 'Distance vs. Average Speed',
-              data: data.map((item) => ({ x: item.distance, y: item.averageSpeed })),
-              backgroundColor: 'rgba(75, 192, 192, 0.4)',
+              label: "Distance vs. Average Speed",
+              data: data.map((item: any) => ({
+                x: item.distance,
+                y: item.averageSpeed,
+              })),
+              backgroundColor: "rgba(75, 192, 192, 0.4)",
               pointRadius: 5,
               pointHoverRadius: 7,
             },
@@ -28,13 +31,13 @@ const DistanceVsAverageSpeedChart = ({ data }) => {
             x: {
               title: {
                 display: true,
-                text: 'Distance',
+                text: "Distance",
               },
             },
             y: {
               title: {
                 display: true,
-                text: 'Average Speed',
+                text: "Average Speed",
               },
             },
           },

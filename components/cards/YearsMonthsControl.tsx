@@ -23,9 +23,15 @@ const MONTHS_LABELS = [
   "Dec",
 ];
 
-const YEARS_LABELS = ["Alltimes", 2019, 2020, 2021, 2022, 2023, 2024];
+const YEARS_LABELS = ["Alltimes", 2021, 2022, 2023, 2024];
 
-const YearsMonthsControl = ({ slug,route }: { slug: string[],route:string }) => {
+const YearsMonthsControl = ({
+  slug,
+  route,
+}: {
+  slug: string[];
+  route: string;
+}) => {
   if (slug.length === 0) {
     slug = ["Alltimes"];
   }
