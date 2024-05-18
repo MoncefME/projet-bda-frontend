@@ -161,6 +161,7 @@ export const getWeekActivityResult = async (
     {
       method: "GET",
       headers: {
+        
         "Content-Type": "application/json",
       },
     },
