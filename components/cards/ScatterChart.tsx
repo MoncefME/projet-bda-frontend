@@ -50,7 +50,11 @@ const DistanceVsAverageSpeedChart = ({ data }: any) => {
     }
   }, [data]);
 
-  return <canvas ref={chartRef} />;
+  return !data || data.length === 0 ? (
+    <div>No data</div>
+  ) : (
+    <canvas ref={chartRef} />
+  );
 };
 
 export default DistanceVsAverageSpeedChart;

@@ -11,40 +11,34 @@ interface DataCardProps {
 
 const DataCard = ({ data, dataType, unit }: DataCardProps) => {
   let icon = "";
-  // let unit = "";
 
   switch (dataType) {
     case "Activities":
       icon = "/icons/rocket_1f680.png";
-      // unit = "Run";
       break;
     case "Distance":
       icon = "/icons/globe-showing-europe-africa_1f30d.png";
-      // unit = "Km";
       break;
     case "Duration":
       icon = "/icons/pushpin_1f4cc.png";
-      // unit = "Hr";
       break;
     case "Streak":
       icon = "/icons/chart-increasing_1f4c8.png";
-      // unit = "Days";
       break;
     case "Break":
       icon = "/icons/chart-decreasing_1f4c9.png";
-      // unit = "Days";
       break;
     case "Most often":
       icon = "/icons/fire_1f525.png";
-      // unit = "51 times";
       break;
     case "Least often":
       icon = "/icons/sleeping-face_1f634.png";
-      // unit = "11 times";
+      break;
+    case "Calories":
+      icon = "/icons/hamburger_1f354.png";
       break;
     default:
       icon = "/icons/thinking-face_1f914.png";
-    // unit = "Run";
   }
 
   return (

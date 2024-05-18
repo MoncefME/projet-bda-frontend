@@ -1,8 +1,23 @@
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import React from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 interface MonthlyDistance {
   month: number;
@@ -19,11 +34,12 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     labels: allMonths,
     datasets: [
       {
-        label: 'Distance (km)',
-        data: allMonths.map(month =>
-          data.find(d => d.month === month)?.distance / 1000 || 0
+        label: "Distance (km)",
+        data: allMonths.map(
+          (month) =>
+            (data.find((d) => d.month === month)?.distance ?? 0) / 1000,
         ),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
       },
     ],
   };
@@ -34,13 +50,13 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
       x: {
         title: {
           display: true,
-          text: 'Month',
+          text: "Month",
         },
       },
       y: {
         title: {
           display: true,
-          text: 'Distance (km)',
+          text: "Distance (km)",
         },
         beginAtZero: true,
       },
@@ -48,7 +64,7 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     plugins: {
       title: {
         display: true,
-        text: 'Monthly Distances',
+        text: "Monthly Distances",
       },
     },
   };
