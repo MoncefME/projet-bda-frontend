@@ -22,7 +22,9 @@ import {
   getBestEffort5Km,
   getBestEffort10Km,
   getBestEffortHM,
+  getMonthlyDistances,
 } from "@/services/insights.service";
+import BarChart from "@/components/cards/BarChart";
 
 const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
   /* 
@@ -36,6 +38,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     longestBreak,
     totalDuration,
     totalDistance,
+    monthlyDistances,
     nbActivities,
     bestEffort1km,
     bestEffort5km,
@@ -50,6 +53,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     setBestEffort5km,
     setBestEffort10km,
     setBestEffortHM,
+    setMonthlyDistances,
   } = useInsightsStore();
 
   const fetchData = async () => {
@@ -123,10 +127,12 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
     );
     setBestEffortHM(besteffortHM);
 
-    // const insightsData = await getInsightsForRange();
-    // setNbActivities(insightsData.numberOfActivities);
-    // setTotalDistance(insightsData.cummulativeDistance);
-    // setTotalDuration(insightsData.cummulativeTime);
+    const yearDistance =
+      params.slug?.[0] || new Date().getFullYear().toString();
+    const monthlyDistancesData = await getMonthlyDistances(
+      Number(yearDistance),
+    );
+    setMonthlyDistances(monthlyDistancesData);
   };
 
   useEffect(() => {
@@ -161,16 +167,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-1 gap-2">
           <div className="flex h-80 flex-col items-center justify-center gap-8 rounded-lg bg-white p-4 shadow-md">
-            <p className="self-start text-3xl font-semibold">Chart Title</p>
-            <Image
-              src="/icons/bar-chart_1f4ca.png"
-              width={150}
-              height={150}
-              alt="icon"
-            />
-            <p>
-              A chart to be determinded later , but its nice to have one here
-            </p>
+            {monthlyDistances && <BarChart data={monthlyDistances} />}
           </div>
         </div>
 
