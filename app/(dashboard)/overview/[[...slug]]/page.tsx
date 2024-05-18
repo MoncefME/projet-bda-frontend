@@ -155,7 +155,7 @@ const OverviewPage = ({ params }: { params: { slug: string[] } }) => {
             <DataCard dataType="Duration" data={totalDuration} unit="Hr" />
           </div>
           <div className="col-span-1 ">
-            <YearsMonthsControl slug={params.slug || []} />
+            <YearsMonthsControl slug={params.slug || []} route="overview" />
           </div>
         </div>
       </div>

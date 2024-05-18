@@ -25,7 +25,13 @@ const MONTHS_LABELS = [
 
 const YEARS_LABELS = ["Alltimes", 2021, 2022, 2023, 2024];
 
-const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
+const YearsMonthsControl = ({
+  slug,
+  route,
+}: {
+  slug: string[];
+  route: string;
+}) => {
   if (slug.length === 0) {
     slug = ["Alltimes"];
   }
@@ -79,9 +85,10 @@ const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
   const handleYearChange = (year: number | string) => {
     setSelectedYear(year);
     if (year === "Alltimes") {
-      router.push("/overview");
+      // router.push("/overview");
+      router.push(`/${route}`);
     } else {
-      router.push(`/overview/${year}`);
+      router.push(`/${route}/${year}`);
     }
   };
 
@@ -89,7 +96,7 @@ const YearsMonthsControl = ({ slug }: { slug: string[] }) => {
     const monthIndex = MONTHS_LABELS.indexOf(month as string);
     setSelectedMonth(monthIndex);
     if (selectedYear !== "Alltimes") {
-      router.push(`/overview/${selectedYear}/${monthIndex}`);
+      router.push(`/${route}/${selectedYear}/${monthIndex}`);
     }
   };
 
