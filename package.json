@@ -17,7 +17,7 @@
     "clsx": "^2.1.1",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.378.0",
-    "next": "14.2.3",
+    "next": "14.2.10",
     "react": "^18",
     "react-activity-calendar": "^2.2.8",
     "react-chartjs-2": "^5.2.0",
